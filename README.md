@@ -1,236 +1,77 @@
-# Historia de Usuario - Proyecto Kanban de Tareas
+# RiwiFlow - Kanban Task Management System
 
-## 📌 Nombre del Proyecto
+RiwiFlow is a professional Single Page Application (SPA) designed to manage task workflows using a Kanban board. It allows different user roles (Admin and Coder) to organize, track, and update the status of tasks in real-time.
 
-**RiwiFlow**
-
----
-
-# 🎯 Objetivo General
-
-Como usuario del sistema, quiero administrar tareas mediante un tablero Kanban para organizar el flujo de trabajo según su estado y rol dentro de la aplicación.
+## 🎯 Project Objective
+The goal of the application is to provide a visual workspace where users can manage the flow of work through four main stages: **To Do**, **In Progress**, **In Review**, and **Done**.
 
 ---
 
-# 👥 Roles del Sistema
+## 🛠 Installation & Setup
 
-| Rol   | Descripción                                                              |
-| ----- | ------------------------------------------------------------------------ |
-| Admin | Puede crear, editar y visualizar todas las tareas                        |
-| Coder | Puede visualizar todas las tareas y editar únicamente las asignadas a él |
+To run this project locally, you will need **Node.js** installed on your machine.
 
----
+### 1. Install Dependencies
+Open your terminal in the project root folder and run the following command to install the required development tools (including `json-server`):
 
-# 🧾 Requerimientos Funcionales
-
-## 🔐 Autenticación
-
-### HU-01 — Inicio de sesión
-
-**Como** usuario registrado
-**Quiero** iniciar sesión en la aplicación
-**Para** acceder a las funcionalidades según mi rol.
-
-### Criterios de aceptación
-
-- El usuario debe ingresar:
-  - email
-  - password
-
-- El sistema debe validar las credenciales usando `json-server`.
-- Si las credenciales son correctas:
-  - se debe almacenar la sesión
-  - se debe redireccionar al dashboard principal
-
-- Si las credenciales son incorrectas:
-  - se debe mostrar un mensaje de error
-
----
-
-## 🖥️ Aplicación SPA
-
-### HU-02 — Navegación sin recarga
-
-**Como** usuario
-**Quiero** navegar entre las vistas sin recargar la página
-**Para** tener una mejor experiencia de usuario.
-
-### Criterios de aceptación
-
-- El proyecto debe desarrollarse como una SPA (Single Page Application).
-- Debe manejar rutas internas.
-- La navegación no debe recargar completamente el navegador.
-
----
-
-# 📋 Gestión de Tareas
-
-## HU-03 — Crear tareas (Admin)
-
-**Como** administrador
-**Quiero** crear tareas
-**Para** asignarlas a los coders.
-
-### Criterios de aceptación
-
-- Solo usuarios con rol `admin` pueden crear tareas.
-- La tarea debe contener:
-  - título
-  - descripción
-  - estado
-  - usuario asignado
-
-- El estado inicial por defecto debe ser `todo`.
-
----
-
-## HU-04 — Visualizar tareas
-
-**Como** usuario autenticado
-**Quiero** visualizar todas las tareas
-**Para** conocer el estado del proyecto.
-
-### Criterios de aceptación
-
-- Tanto `admin` como `coder` pueden visualizar todas las tareas.
-- Las tareas deben mostrarse organizadas por columnas:
-  - Todo
-  - In Progress
-  - In Review
-  - Done
-
----
-
-## HU-05 — Editar tareas (Admin)
-
-**Como** administrador
-**Quiero** editar cualquier tarea
-**Para** actualizar información o cambiar estados.
-
-### Criterios de aceptación
-
-- El admin puede:
-  - editar título
-  - editar descripción
-  - cambiar estado
-  - cambiar usuario asignado
-
----
-
-## HU-06 — Editar tareas asignadas (Coder)
-
-**Como** coder
-**Quiero** editar únicamente las tareas asignadas a mí
-**Para** actualizar el progreso de mi trabajo.
-
-### Criterios de aceptación
-
-- El coder NO puede crear tareas.
-- El coder solo puede editar tareas donde:
-
-- El coder puede:
-  - cambiar estado
-  - editar descripción
-
-- El coder NO puede:
-  - editar tareas de otros usuarios
-  - eliminar tareas
-  - crear tareas
-
----
-
-# 🔄 Estados del Kanban
-
-## HU-07 — Flujo de estados
-
-**Como** usuario
-**Quiero** clasificar tareas por estado
-**Para** visualizar el progreso del trabajo.
-
-### Estados requeridos
-
-- `todo`
-- `in progress`
-- `in review`
-- `done`
-
-### Criterios de aceptación
-
-- Cada tarea debe pertenecer a un único estado.
-- Las tareas deben visualizarse en la columna correspondiente.
-- El estado debe poder actualizarse mediante edición.
-
----
-
-# 🗄️ Persistencia de Datos
-
-## HU-08 — Uso de JSON Server
-
-**Como** desarrollador
-**Quiero** usar `json-server`
-**Para** simular una API REST.
-
-### Criterios de aceptación
-
-- Debe utilizarse `json-server`.
-- La estructura del archivo `db.json` debe mantenerse exactamente así:
-
-```json
-{
-  "users": [
-    {
-      "id": 1,
-      "name": "",
-      "email": "",
-      "password": "",
-      "role": "admin"
-    },
-    {
-      "id": 2,
-      "name": "",
-      "email": "",
-      "password": "",
-      "role": "coder"
-    }
-  ],
-  "tasks": [
-    {
-      "id": 1,
-      "title": "",
-      "description": "",
-      "status": "pending",
-      "userId": 2
-    },
-    {
-      "id": 2,
-      "title": "",
-      "description": "",
-      "status": "done",
-      "userId": 2
-    }
-  ]
-}
+```bash
+npm install
 ```
 
+### 2. Start the Backend Server
+The application relies on a simulated REST API to manage the data stored in `db.json`. Start the server by running:
+
+```bash
+npm start
+```
+*Alternatively, you can use: `npx json-server --watch db.json --port 3000`*
+
+**Note:** Keep this terminal window open. The server must be running for the application to load and save data.
+
+### 3. Launch the Application
+Once the server is active:
+- Navigate to the project root folder.
+- Open the `index.html` file in any modern web browser (Chrome, Firefox, Edge).
+
 ---
 
-# 🎨 Requerimientos Técnicos
+## 👥 User Roles & Permissions
 
-## Frontend
+The system implements Role-Based Access Control (RBAC) to manage permissions:
 
-- SPA
-- Manejo de rutas
-- Manejo de estado
-- Consumo de API REST
-- Protección de rutas por autenticación y rol
+| Role | Permissions |
+| :--- | :--- |
+| **Admin** | Full access: can create new tasks, edit any task, and assign tasks to users. |
+| **Coder** | Restricted access: can view all tasks and edit only those specifically assigned to them. |
 
 ---
 
-# ✅ Entregables
+## 📁 Project Structure
 
-- Proyecto funcional en ingles
-- Código organizado y en ingles
-- Archivo `db.json`
-- README con instrucciones de ejecución
-- Evidencia del manejo de roles
-- Evidencia del funcionamiento del Kanban
+proyecto-sharick/
+├── node_modules/          # External libraries & dependencies
+├── src/                   # Application source code
+│   ├── components/        # Reusable UI components
+│   │   ├── taskCard.js    # Task card layout and logic
+│   │   ├── taskModal.js   # Task creation and edit modal
+│   │   └── toast.js       # Notification system
+│   ├── views/             # Page views and rendering
+│   │   ├── board.js       # Kanban board view logic
+│   │   └── login.js       # Login view logic
+│   ├── api.js             # API client for data communication
+│   ├── app.js             # Application entry point
+│   ├── auth.js            # Session and role management
+│   └── router.js          # SPA routing and navigation
+├── board.html             # Static board template
+├── login.html             # Static login template
+├── db.json                # Local JSON database
+├── index.html            # Main application entry point
+├── package.json           # Project metadata and scripts
+├── package-lock.json      # Exact dependency versions
+└── README.md              # Project documentation and setup guide
+```
+
+## 🚀 Quick Start Tips
+- **Authentication:** Use the credentials found in `db.json` to log in.
+- **Kanban Flow:** Use the "Edit" button on any task card to change its status and move it between columns.
+- **Data Persistence:** All changes are saved automatically to `db.json` via the API.

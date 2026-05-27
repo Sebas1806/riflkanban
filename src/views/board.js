@@ -13,10 +13,10 @@ import { showToast } from '../components/toast.js';
 
 /** Column config: status key → display label */
 const COLUMNS = [
-  { key: 'todo',        label: 'To Do',       badgeClass: 'bg-surface-container-high text-on-surface-variant' },
-  { key: 'in progress', label: 'In Progress',  badgeClass: 'bg-primary-container text-on-primary' },
-  { key: 'in review',   label: 'In Review',    badgeClass: 'bg-surface-container-high text-on-surface-variant' },
-  { key: 'done',        label: 'Done',         badgeClass: 'bg-surface-container-high text-on-surface-variant' },
+  { key: 'todo', label: 'To Do', badgeClass: 'bg-surface-container-high text-on-surface-variant' },
+  { key: 'in progress', label: 'In Progress', badgeClass: 'bg-primary-container text-on-primary' },
+  { key: 'in review', label: 'In Review', badgeClass: 'bg-surface-container-high text-on-surface-variant' },
+  { key: 'done', label: 'Done', badgeClass: 'bg-surface-container-high text-on-surface-variant' },
 ];
 
 /**
@@ -240,20 +240,20 @@ function getBoardHTML(session) {
         </nav>
         <div class="px-4 mt-auto">
           ${admin
-            ? `<button
+      ? `<button
                 id="new-task-btn"
                 class="w-full bg-primary text-on-primary py-3 rounded-xl font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm hover:opacity-90 transition-opacity">
                 <span class="material-symbols-outlined">add</span>
                 New Project
               </button>`
-            : `<button
+      : `<button
                 disabled
                 class="w-full bg-surface-container-high text-on-surface-variant py-3 rounded-xl font-label-md text-label-md flex items-center justify-center gap-2 cursor-not-allowed opacity-60"
                 title="Only admins can create tasks">
                 <span class="material-symbols-outlined">lock</span>
                 New Project
               </button>`
-          }
+    }
         </div>
       </aside>
 

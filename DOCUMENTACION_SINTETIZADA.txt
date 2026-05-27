@@ -1,0 +1,85 @@
+================================================================================
+                 DOCUMENTACIÓN TÉCNICA BALANCEADA: PROYECTO RIWIFLOW
+================================================================================
+
+Este documento describe el funcionamiento del sistema RiwiFlow, combinando la
+precisión técnica con una explicación clara para niveles iniciales y medios.
+
+--------------------------------------------------------------------------------
+1. ARQUITECTURA DEL SISTEMA
+--------------------------------------------------------------------------------
+RiwiFlow es una Single Page Application (SPA). A diferencia de los sitios web
+tradicionales, no recarga la página completa al navegar. Utiliza un sistema de
+"rutas" que cambia el contenido del HTML dinámicamente.
+
+ESTRUCTURA DE CAPAS:
+1. Capa de Datos: Archivo `db.json` gestionado por `json-server`.
+2. Capa de Comunicación: `api.js` que realiza las peticiones HTTP.
+3. Capa de Lógica: `router.js` (navegación) y `auth.js` (permisos y sesiones).
+4. Capa de Interfaz: `views/` (páginas) y `components/` (elementos reutilizables).
+
+--------------------------------------------------------------------------------
+2. ANÁLISIS FUNCIONAL DE LOS MÓDULOS
+--------------------------------------------------------------------------------
+
+A. GESTIÓN DE NAVEGACIÓN (src/router.js)
+El router es el encargado de controlar qué ve el usuario según la URL.
+- Utiliza el "Hash" de la URL (ej. #/board) para identificar la vista.
+- Implementa una validación de seguridad: antes de renderizar cualquier vista,
+  consulta el estado de autenticación. Si el usuario no ha iniciado sesión,
+  lo redirige automáticamente a la vista de login.
+
+B. SEGURIDAD Y SESIONES (src/auth.js)
+Este módulo gestiona la identidad del usuario y sus permisos.
+- Persistencia: Utiliza `localStorage` para guardar la sesión. Esto evita que
+  el usuario tenga que loguearse cada vez que recargue la página.
+- Control de Acceso (RBAC): Implementa funciones como `isAdmin()` e `isCoder()`
+  que permiten al sistema decidir si se debe mostrar o bloquear un botón o
+  una acción según el rol del usuario.
+
+C. COMUNICACIÓN CON EL SERVIDOR (src/api.js)
+Actúa como la interfaz entre el frontend y la base de datos.
+- Centraliza todas las peticiones usando la función `fetch`.
+- Maneja los métodos HTTP estándar:
+    - GET: Para obtener tareas y usuarios.
+    - POST: Para crear nuevas tareas.
+    - PATCH: Para actualizar solo campos específicos de una tarea (como el estado).
+    - DELETE: Para eliminar tareas.
+
+D. INTERFAZ Y RENDERIZADO (src/views/ y src/components/)
+El proyecto separa la interfaz en dos niveles para mantener el código limpio:
+- Vistas (Views): Archivos que definen la estructura completa de una página.
+  Ejemplo: `board.js` gestiona la lógica global del tablero Kanban.
+- Componentes (Components): Piezas pequeñas y reutilizables. Ejemplo: `taskCard.js`
+  define la estructura de una sola tarjeta de tarea. Esto permite que el
+  tablero simplemente repita este componente para cada tarea encontrada.
+
+--------------------------------------------------------------------------------
+3. LÓGICA DEL TABLERO KANBAN
+--------------------------------------------------------------------------------
+El funcionamiento del Kanban se basa en el estado de la tarea (`status`):
+
+1. El sistema define 4 estados: 'todo', 'in progress', 'in review' y 'done'.
+2. El archivo `board.js` filtra la lista total de tareas y las agrupa según su
+   estado para dibujarlas en la columna correspondiente.
+3. Al editar una tarea y cambiar su estado, se envía una petición PATCH a la API,
+   se actualiza el `db.json` y la vista se refresca, moviendo la tarjeta de
+   columna visualmente.
+
+--------------------------------------------------------------------------------
+4. INFRAESTRUCTURA Y HERRAMIENTAS
+--------------------------------------------------------------------------------
+
+- json-server: Es la herramienta que convierte el archivo `db.json` en una API
+  REST real. Permite que el frontend haga peticiones HTTP como si tuviera un
+  servidor profesional conectado.
+- node_modules: Contiene las dependencias necesarias para ejecutar `json-server`.
+  No es código del proyecto, sino el entorno de herramientas externo.
+- Tailwind CSS: Se utiliza para el diseño mediante clases utilitarias, lo que
+  permite crear una interfaz moderna y responsiva sin escribir CSS manual.
+
+--------------------------------------------------------------------------------
+5. RESUMEN DE FLUJO DE TRABAJO
+--------------------------------------------------------------------------------
+Usuario hace clic $\rightarrow$ Router valida sesión $\rightarrow$ Vista pide datos a la API $\rightarrow$ API consulta el servidor $\rightarrow$ Servidor lee db.json $\rightarrow$ API devuelve datos $\rightarrow$ Vista dibuja los componentes en pantalla.
+================================================================================
