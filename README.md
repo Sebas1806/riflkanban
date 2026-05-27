@@ -62,8 +62,6 @@ proyecto-sharick/
 │   ├── app.js             # Application entry point
 │   ├── auth.js            # Session and role management
 │   └── router.js          # SPA routing and navigation
-├── board.html             # Static board template
-├── login.html             # Static login template
 ├── db.json                # Local JSON database
 ├── index.html            # Main application entry point
 ├── package.json           # Project metadata and scripts
